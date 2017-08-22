@@ -32,7 +32,9 @@ initStore = do
   putStrLn "Server listening on http://localhost:4444 ..."
   return (serverMetricStore svr, Just $ serverThreadId svr)
 #else
-initStore = (,Nothing) <$> newStore
+initStore = do
+  putStrLn "Server started in headless mode ..."
+  (,Nothing) <$> newStore
 #endif
 
 data Latch = Up | Down
