@@ -3,6 +3,8 @@
 This is a simple standalone app demonstrating the usage of EKG to collect metrics which are later sent to `statsd`.
 It comes in two flavours: headless (which uses `ekg-core`) and `with-server` (which makes available a Web UI).
 
+![screen shot 2017-08-22 at 17 11 10](https://user-images.githubusercontent.com/29383371/29572554-faeb8b52-875c-11e7-92c0-1d4336d354e8.png)
+
 ## Building headless version
 
 ```
