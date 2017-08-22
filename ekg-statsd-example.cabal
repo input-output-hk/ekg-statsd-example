@@ -1,0 +1,46 @@
+name:                ekg-statsd-example
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/input-output-hk/ekg-statsd-example#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Alfredo Di Napoli
+maintainer:          alfredo.dinapoli@iohk.io
+copyright:           2017 IOHK
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+flag with-server
+     default: False
+     manual:  True
+     description: Enables the UI server on port 4444
+
+executable ekg-statsd-example
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts "-with-rtsopts=-N -T"
+  build-depends:       base
+                     , ekg-core
+                     , ekg-statsd
+                     , transformers
+  if flag(with-server)
+    cpp-options:       -DWITH_SERVER
+    build-depends:       base
+                       , ekg-wai
+  default-language:    Haskell2010
+
+test-suite ekg-statsd-example-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , ekg-statsd-example
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/input-output-hk/ekg-statsd-example
