@@ -87,23 +87,7 @@ loop = do
   liftIO $ do
     Counter.inc counter
     sampleLatch latchState' latch
-    -- Push to statsd
     -- Wait 1 second, start again.
     threadDelay 1000000
   put st { latchState = latchState' }
   loop
-
-{-
-    handle <- forkServer "localhost" 8000
-    counter <- getCounter "iterations" handle
-    label <- getLabel "args" handle
-    event <- getDistribution "runtime" handle
-    Label.set label "some text string"
-    let loop n = do
-            t <- timed $ evaluate $ mean [1..n]
-            Distribution.add event t
-            threadDelay 2000
-            Counter.inc counter
-            loop n
-    loop 1000000
--}
