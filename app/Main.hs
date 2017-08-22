@@ -45,13 +45,14 @@ flipLatch Down = Up
 
 sampleLatch :: Latch -> Gauge.Gauge -> IO ()
 sampleLatch Up   g = Gauge.add g 5
-sampleLatch Down g = Gauge.subtract g 10
+sampleLatch Down g = Gauge.subtract g 5
 
 data AppState = AppState {
     counter :: Counter.Counter
   , latch :: Gauge.Gauge
   , latchState :: Latch
   , storage :: Store
+  , statsd  :: Statsd
   }
 
 type App = StateT AppState IO
@@ -62,6 +63,14 @@ newAppState st = do
            <*> createGauge   "latch_gauge" st
            <*> pure Down
            <*> pure st
+           <*> forkStatsd statsdOptions st
+  where
+    statsdOptions = defaultStatsdOptions {
+      host     = "127.0.0.1"
+      , port   = 8125
+      , debug  = True
+      , prefix = "haskell-ekg-statsd-example"
+      }
 
 main :: IO ()
 main = do
